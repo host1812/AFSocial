@@ -1,6 +1,11 @@
 @AFSocial.Api_HostAddress = https://localhost:7299
 
-GET {{AFSocial.Api_HostAddress}}/weatherforecast/
+GET {{AFSocial.Api_HostAddress}}/api/v1/Post/9d5e1710-a4f2-4c8a-adff-c9c3bd57b3d4
+Accept: application/json
+
+###
+
+GET {{AFSocial.Api_HostAddress}}/api/v2/Post/9d5e1710-a4f2-4c8a-adff-c9c3bd57b3d4
 Accept: application/json
 
 ###
