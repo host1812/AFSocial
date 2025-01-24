@@ -1,4 +1,4 @@
-﻿using AFSocial.Domain.Models;
+﻿using AFSocial.Domain.Aggregates.PostAggregate;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +21,6 @@ public class PostController : ControllerBase
         {
             return UnprocessableEntity();
         }
-        return Ok(new Post { Body = "Simple post text", Id = guid });
+        return Ok(Post.CreatePost(Guid.NewGuid(), "Content"));
     }
 }

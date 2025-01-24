@@ -10,6 +10,7 @@ public class UserProfile
     private UserProfile()
     {
     }
+
     public Guid UserProfileId { get; private set; }
     public Guid ObjectId { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -25,5 +26,10 @@ public class UserProfile
             CreatedAt = DateTime.UtcNow,
             LastModified = DateTime.UtcNow,
         };
+    }
+
+    public void UpdateBasicInfo(BasicInfo newInfo)
+    {
+        BasicInfo = newInfo;
     }
 }

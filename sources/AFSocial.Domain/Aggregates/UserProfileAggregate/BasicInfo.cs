@@ -10,12 +10,13 @@ public class BasicInfo
     private BasicInfo()
     {
     }
-    public string FirstName { get; private set; } = string.Empty;
-    public string LastName { get; private set; } = string.Empty;
-    public string EmailAddress { get; private set; } = string.Empty;
-    public string PhoneNumber { get; set; }
-    public DateTime DateOfBirth { get; private set; } = DateTime.Now;
-    public string CurrentCity { get; private set; } = string.Empty;
+
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public string EmailAddress { get; private set; }
+    public string PhoneNumber { get; private set; }
+    public DateTime DateOfBirth { get; private set; }
+    public string CurrentCity { get; private set; }
 
     public static BasicInfo CreateBasicInfo(
         string firstName,

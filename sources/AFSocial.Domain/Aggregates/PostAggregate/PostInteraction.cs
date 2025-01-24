@@ -7,7 +7,20 @@ using System.Threading.Tasks;
 namespace AFSocial.Domain.Aggregates.PostAggregate;
 public class PostInteraction
 {
-    public Guid InteractionId { get; set; } = Guid.NewGuid();
-    public Guid PostId { get; set; } = Guid.NewGuid();
+    private PostInteraction()
+    {
+    }
 
+    public Guid InteractionId { get; private set; } = Guid.NewGuid();
+    public Guid PostId { get; private set; } = Guid.NewGuid();
+    public InteractionType InteractionType { get; private set; }
+
+    public static PostInteraction CreatePostInteraction(Guid postId, InteractionType type)
+    {
+        return new PostInteraction()
+        {
+            PostId = postId,
+            InteractionType = type,
+        };
+    }
 }
