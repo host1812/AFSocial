@@ -1,6 +1,6 @@
 ﻿namespace AFSocial.Api.Registars;
 
-public interface IWebApplicationRegistar : IRegistrar
+public interface IWebApplicationDevRegistar : IRegistrarDev
 {
     public void RegisterPipelineComponents(WebApplication app);
 }
