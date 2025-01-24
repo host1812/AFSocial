@@ -6,6 +6,7 @@ namespace AFSocial.Api.Controllers.v1;
 
 [ApiController]
 [ApiVersion("1")]
+[Route("api/[controller]")]
 [Route("api/v{version:apiVersion}/[controller]")]
 public class PostController : ControllerBase
 {
