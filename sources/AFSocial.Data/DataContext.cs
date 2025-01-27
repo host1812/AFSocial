@@ -1,4 +1,5 @@
-﻿using AFSocial.Domain.Aggregates.PostAggregate;
+﻿using AFSocial.Data.Configurations;
+using AFSocial.Domain.Aggregates.PostAggregate;
 using AFSocial.Domain.Aggregates.UserProfileAggregate;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,5 +14,8 @@ public class DataContext(DbContextOptions options) : IdentityDbContext(options)
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.ApplyConfiguration(new PostCommentConfig());
+        builder.ApplyConfiguration(new PostInteractionConfig());
+        builder.ApplyConfiguration(new UserProfileConfig());
     }
 }
