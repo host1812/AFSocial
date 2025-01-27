@@ -10,11 +10,18 @@
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="NSwag.AspNetCore" Version="14.2.0" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.0.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AFSocial.Data\AFSocial.Data.csproj" />
     <ProjectReference Include="..\AFSocial.Domain\AFSocial.Domain.csproj" />
   </ItemGroup>
 
