@@ -6,4 +6,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Posts\CommandHandlers\" />
+    <Folder Include="Posts\Commands\" />
+    <Folder Include="Posts\Queries\" />
+    <Folder Include="Posts\QueryHandlers\" />
+    <Folder Include="UserProfiles\Commands\" />
+    <Folder Include="UserProfiles\CommandHandlers\" />
+    <Folder Include="UserProfiles\Queries\" />
+    <Folder Include="UserProfiles\QueryHandlers\" />
+  </ItemGroup>
+
 </Project>

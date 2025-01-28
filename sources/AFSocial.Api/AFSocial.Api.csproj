@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
@@ -23,6 +25,13 @@
   <ItemGroup>
     <ProjectReference Include="..\AFSocial.Data\AFSocial.Data.csproj" />
     <ProjectReference Include="..\AFSocial.Domain\AFSocial.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\Posts\Responses\" />
+    <Folder Include="Contracts\Posts\Requests\" />
+    <Folder Include="Contracts\UserProfiles\Responses\" />
+    <Folder Include="Contracts\UserProfiles\Requests\" />
   </ItemGroup>
 
 </Project>
