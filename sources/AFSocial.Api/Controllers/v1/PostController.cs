@@ -6,12 +6,12 @@ namespace AFSocial.Api.Controllers.v1;
 
 [ApiController]
 [ApiVersion("1")]
-[Route("api/[controller]")]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route(ApiRoutes.BaseDefaultRoute)]
+[Route(ApiRoutes.BaseVersionedRoute)]
 public class PostController : ControllerBase
 {
     [HttpGet]
-    [Route("{id}")]
+    [Route(ApiRoutes.Posts.IdRoute)]
     [ProducesResponseType(typeof(Post), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public IActionResult GetById(string id)
