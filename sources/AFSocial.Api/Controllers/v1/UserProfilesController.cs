@@ -29,7 +29,16 @@ public class UserProfilesController : ControllerBase
     public async Task<IActionResult> CreateUserProfile([FromBody] UserProfileCreate profile)
     {
         var command = profile.ToUserProfileCommand();
-        var response = await mediator.Send(command);
+        var userProfile = await mediator.Send(command);
+        var response = userProfile.ToUserProfileResponse();
+        return CreatedAtAction(
+            nameof(GetUserProfileById),
+            new { id = response.UserProfileId, userProfile });
+    }
+    [HttpGet]
+    [Route(ApiRoutes.UserProfiles.IdRoute)]
+    public async Task<IActionResult> GetUserProfileById(string id)
+    {
         return Ok();
     }
 }

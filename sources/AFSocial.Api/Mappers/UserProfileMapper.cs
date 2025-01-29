@@ -24,7 +24,7 @@ public static class UserProfileMapper
         };
     }
 
-    public static UserProfileResponse ToUserProfileCommand(this UserProfile source)
+    public static UserProfileResponse ToUserProfileResponse(this UserProfile source)
     {
         return new UserProfileResponse()
         {
