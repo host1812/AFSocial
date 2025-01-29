@@ -1,4 +1,5 @@
 ﻿using AFSocial.Api.Contracts.UserProfiles.Requests;
+using AFSocial.Api.Mappers;
 using AFSocial.Domain.Aggregates.PostAggregate;
 using Asp.Versioning;
 using MediatR;
@@ -27,7 +28,8 @@ public class UserProfilesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUserProfile([FromBody] UserProfileCreate profile)
     {
-
+        var command = profile.ToUserProfileCommand();
+        var response = await mediator.Send(command);
         return Ok();
     }
 }
