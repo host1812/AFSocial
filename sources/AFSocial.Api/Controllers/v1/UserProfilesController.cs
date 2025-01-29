@@ -27,6 +27,7 @@ public class UserProfilesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUserProfile([FromBody] UserProfileCreate profile)
     {
+
         return Ok();
     }
 }

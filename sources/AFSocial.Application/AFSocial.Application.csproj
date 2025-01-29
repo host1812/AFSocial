@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
@@ -16,10 +15,13 @@
     <Folder Include="Posts\Commands\" />
     <Folder Include="Posts\Queries\" />
     <Folder Include="Posts\QueryHandlers\" />
-    <Folder Include="UserProfiles\Commands\" />
-    <Folder Include="UserProfiles\CommandHandlers\" />
     <Folder Include="UserProfiles\Queries\" />
     <Folder Include="UserProfiles\QueryHandlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AFSocial.Data\AFSocial.Data.csproj" />
+    <ProjectReference Include="..\AFSocial.Domain\AFSocial.Domain.csproj" />
   </ItemGroup>
 
 </Project>
