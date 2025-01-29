@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AFSocial.Application\AFSocial.Application.csproj" />
     <ProjectReference Include="..\AFSocial.Data\AFSocial.Data.csproj" />
     <ProjectReference Include="..\AFSocial.Domain\AFSocial.Domain.csproj" />
   </ItemGroup>
