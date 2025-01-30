@@ -1,10 +1,13 @@
-﻿namespace AFSocial.Api.Registars;
+﻿using System.Reflection;
+
+namespace AFSocial.Api.Registars;
 
 public class MediatrRegistrar : IWebApplicationBuilderRegistar
 {
     public void RegisterServices(WebApplicationBuilder builder)
     {
-        builder.Services.AddMediatR(
-            cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+        var assemblies = Assembly.Load("AFSocial.Application");
+
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
     }
 }
