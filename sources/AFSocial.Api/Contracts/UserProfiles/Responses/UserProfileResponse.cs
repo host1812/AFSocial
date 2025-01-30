@@ -1,6 +1,4 @@
-﻿using AFSocial.Domain.Aggregates.UserProfileAggregate;
-
-namespace AFSocial.Api.Contracts.UserProfiles.Responses;
+﻿namespace AFSocial.Api.Contracts.UserProfiles.Responses;
 
 public record UserProfileResponse
 {

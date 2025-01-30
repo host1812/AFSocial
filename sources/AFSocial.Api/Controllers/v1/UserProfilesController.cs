@@ -1,6 +1,6 @@
 ﻿using AFSocial.Api.Contracts.UserProfiles.Requests;
 using AFSocial.Api.Mappers;
-using AFSocial.Domain.Aggregates.PostAggregate;
+using AFSocial.Application.UserProfiles.Queries;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +22,10 @@ public class UserProfilesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllProfiles()
     {
-        return Ok();
+        var query = new GetAllUserProfilesQuery();
+        var profiles = await mediator.Send(query);
+        var response = profiles.Select(p => p.ToUserProfileResponse()).ToList();
+        return Ok(response);
     }
 
     [HttpPost]
@@ -39,6 +42,9 @@ public class UserProfilesController : ControllerBase
     [Route(ApiRoutes.UserProfiles.IdRoute)]
     public async Task<IActionResult> GetUserProfileById(string id)
     {
-        return Ok();
+        var query = new GetUserProfileByIdQuery { UserProfileId = Guid.Parse(id)};
+        var userProfile = await mediator.Send(query);
+        var response = userProfile.ToUserProfileResponse();
+        return Ok(response);
     }
 }

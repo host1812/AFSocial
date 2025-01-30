@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AFSocial.Domain.Aggregates.UserProfileAggregate;
+﻿namespace AFSocial.Domain.Aggregates.UserProfileAggregate;
 public class UserProfile
 {
     private UserProfile()

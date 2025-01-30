@@ -1,6 +1,4 @@
 using AFSocial.Api.Extensions;
-using Asp.Versioning;
-using Scalar.AspNetCore;
 
 namespace AFSocial.Api;
 
