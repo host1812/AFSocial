@@ -36,13 +36,13 @@ public class UserProfilesController : ControllerBase
         var response = userProfile.ToUserProfileResponse();
         return CreatedAtAction(
             nameof(GetUserProfileById),
-            new { id = response.UserProfileId, userProfile });
+            new { id = response.UserProfileId }, response );
     }
     [HttpGet]
     [Route(ApiRoutes.UserProfiles.IdRoute)]
-    public async Task<IActionResult> GetUserProfileById(string id)
+    public async Task<IActionResult> GetUserProfileById([FromRoute] Guid id)
     {
-        var query = new GetUserProfileByIdQuery { UserProfileId = Guid.Parse(id)};
+        var query = new GetUserProfileByIdQuery { UserProfileId = id};
         var userProfile = await mediator.Send(query);
         var response = userProfile.ToUserProfileResponse();
         return Ok(response);
