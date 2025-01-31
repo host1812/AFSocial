@@ -6,9 +6,23 @@ using AFSocial.Domain.Aggregates.UserProfileAggregate;
 namespace AFSocial.Api.Mappers;
 public static class UserProfileMapper
 {
-    public static CreateUserCommand ToUserProfileCommand(this UserProfileCreate source)
+    public static CreateUserCommand ToUserProfileCommand(this UserProfileCreateUpdate source)
     {
         return new CreateUserCommand()
+        {
+            CurrentCity = source.CurrentCity,
+            DateOfBirth = source.DateOfBirth,
+            EmailAddress = source.EmailAddress,
+            FirstName = source.FirstName,
+            LastName = source.LastName,
+            PhoneNumber = source.PhoneNumber,
+        };
+    }
+
+    public static UpdateUserProfileBasicInfoCommand ToUpdateUserProfileBasicInfoCommand(
+        this UserProfileCreateUpdate source)
+    {
+        return new UpdateUserProfileBasicInfoCommand()
         {
             CurrentCity = source.CurrentCity,
             DateOfBirth = source.DateOfBirth,

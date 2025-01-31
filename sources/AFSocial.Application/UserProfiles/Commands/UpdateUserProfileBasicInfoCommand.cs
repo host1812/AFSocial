@@ -1,7 +1,9 @@
-﻿namespace AFSocial.Api.Contracts.UserProfiles.Requests;
+﻿using MediatR;
 
-public record UserProfileCreate
+namespace AFSocial.Application.UserProfiles.Commands;
+public class UpdateUserProfileBasicInfoCommand : IRequest
 {
+    public Guid UserProfileId { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string EmailAddress { get; set; }

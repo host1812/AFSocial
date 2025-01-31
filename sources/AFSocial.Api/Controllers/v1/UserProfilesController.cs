@@ -1,5 +1,6 @@
 ﻿using AFSocial.Api.Contracts.UserProfiles.Requests;
 using AFSocial.Api.Mappers;
+using AFSocial.Application.UserProfiles.Commands;
 using AFSocial.Application.UserProfiles.Queries;
 using Asp.Versioning;
 using MediatR;
@@ -29,7 +30,7 @@ public class UserProfilesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateUserProfile(UserProfileCreate profile)
+    public async Task<IActionResult> CreateUserProfile(UserProfileCreateUpdate profile)
     {
         var command = profile.ToUserProfileCommand();
         var userProfile = await mediator.Send(command);
@@ -40,11 +41,23 @@ public class UserProfilesController : ControllerBase
     }
     [HttpGet]
     [Route(ApiRoutes.UserProfiles.IdRoute)]
-    public async Task<IActionResult> GetUserProfileById([FromRoute] Guid id)
+    public async Task<IActionResult> GetUserProfileById(Guid id)
     {
         var query = new GetUserProfileByIdQuery { UserProfileId = id};
         var userProfile = await mediator.Send(query);
         var response = userProfile.ToUserProfileResponse();
         return Ok(response);
+    }
+
+    [HttpPatch]
+    [Route(ApiRoutes.UserProfiles.IdRoute)]
+    public async Task<IActionResult> UpdateUserProfile(
+        Guid id,
+        UserProfileCreateUpdate updatedProfile)
+    {
+        var command = updatedProfile.ToUpdateUserProfileBasicInfoCommand();
+        command.UserProfileId = id;
+        await mediator.Send(command);
+        return Ok();
     }
 }
