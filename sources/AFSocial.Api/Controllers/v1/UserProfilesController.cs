@@ -5,6 +5,7 @@ using AFSocial.Application.UserProfiles.Queries;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using AFSocial.Application.Models;
 
 namespace AFSocial.Api.Controllers.v1;
 
@@ -58,7 +59,17 @@ public class UserProfilesController : ControllerBase
         var command = updatedProfile.ToUpdateUserProfileBasicInfoCommand();
         command.UserProfileId = id;
         var result = await mediator.Send(command);
-        
+        if (result.IsError)
+        {
+            if (result.Errors.Any(e => e.Code == ErrorCode.NOT_FOUND))
+            {
+                return NotFound();
+            }
+            else if (result.Errors.Any(e => e.Code == ErrorCode.INTERNAL))
+            {
+                return StatusCode(500);
+            }
+        }
         var userProfile = result.Value;
         return NoContent();
     }

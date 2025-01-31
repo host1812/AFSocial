@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AFSocial.Application.Models;
-public class OperationResult<T>
+public class OperationError
 {
-    public T? Value { get; set; }
-    public bool IsError { get; set; }
-    public List<OperationError> Errors { get; set; } = [];
+    public ErrorCode Code { get; set; }
+    public string Message { get; set; }
 }

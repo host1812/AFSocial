@@ -28,7 +28,11 @@ public class UpdateUserProfileBasicInfoCommandHandler :
         {
             result.Value = null;
             result.IsError = true;
-            result.Errors = [$"User profile not found. Id: {request.UserProfileId}"];
+            result.Errors = [new OperationError
+            {
+                Code = ErrorCode.NOT_FOUND,
+                Message = $"User profile not found. Id: {request.UserProfileId}"
+            }];
             return result;
         }
 
@@ -53,7 +57,11 @@ public class UpdateUserProfileBasicInfoCommandHandler :
         {
             result.Value = null;
             result.IsError = true;
-            result.Errors = ["Failed to save UserProfile in the database"];
+            result.Errors.Add(new OperationError
+            {
+                Code = ErrorCode.INTERNAL,
+                Message = "Something really bad happened!"
+            });
         }
 
         return result;
