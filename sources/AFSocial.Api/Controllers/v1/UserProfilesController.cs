@@ -67,6 +67,6 @@ public class UserProfilesController : ControllerBase
     {
         var command = new DeleteUserProfileCommand { UserProfileId = id };
         await mediator.Send(command);
-        return Ok();
+        return NoContent();
     }
 }
