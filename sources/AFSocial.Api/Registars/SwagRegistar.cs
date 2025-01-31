@@ -7,7 +7,7 @@ public class SwagRegistar : IWebApplicationRegistar
 {
     public void RegisterPipelineComponents(WebApplication app)
     {
-        app.MapScalarApiReference();
+        app.MapScalarApiReference(cfg => cfg.Theme = ScalarTheme.BluePlanet);
         app.MapOpenApi();
         app.UseSwaggerUi(ops =>
         {

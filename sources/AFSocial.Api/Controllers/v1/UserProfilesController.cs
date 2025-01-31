@@ -57,7 +57,9 @@ public class UserProfilesController : ControllerBase
     {
         var command = updatedProfile.ToUpdateUserProfileBasicInfoCommand();
         command.UserProfileId = id;
-        await mediator.Send(command);
+        var result = await mediator.Send(command);
+        
+        var userProfile = result.Value;
         return NoContent();
     }
 

@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using AFSocial.Application.Models;
+using AFSocial.Domain.Aggregates.UserProfileAggregate;
+using MediatR;
 
 namespace AFSocial.Application.UserProfiles.Commands;
-public class UpdateUserProfileBasicInfoCommand : IRequest
+public class UpdateUserProfileBasicInfoCommand : IRequest<OperationResult<UserProfile>>
 {
     public Guid UserProfileId { get; set; }
     public string FirstName { get; set; }
