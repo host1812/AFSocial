@@ -63,7 +63,8 @@ public class UserProfilesController : ControllerBase
         {
             if (result.Errors.Any(e => e.Code == ErrorCode.NOT_FOUND))
             {
-                return NotFound();
+                var error = result.Errors.FirstOrDefault(e => e.Code == ErrorCode.NOT_FOUND);
+                return NotFound(error?.Message);
             }
             else if (result.Errors.Any(e => e.Code == ErrorCode.INTERNAL))
             {
