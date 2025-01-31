@@ -58,6 +58,15 @@ public class UserProfilesController : ControllerBase
         var command = updatedProfile.ToUpdateUserProfileBasicInfoCommand();
         command.UserProfileId = id;
         await mediator.Send(command);
+        return NoContent();
+    }
+
+    [HttpDelete]
+    [Route(ApiRoutes.UserProfiles.IdRoute)]
+    public async Task<IActionResult> DeleteUserProfile(Guid id)
+    {
+        var command = new DeleteUserProfileCommand { UserProfileId = id };
+        await mediator.Send(command);
         return Ok();
     }
 }
