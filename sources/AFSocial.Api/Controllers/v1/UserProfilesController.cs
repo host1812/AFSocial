@@ -14,7 +14,7 @@ namespace AFSocial.Api.Controllers.v1;
 [ApiVersion("1")]
 [Route(ApiRoutes.BaseDefaultRoute)]
 [Route(ApiRoutes.BaseVersionedRoute)]
-public class UserProfilesController : ControllerBase
+public class UserProfilesController : BaseController
 {
     private readonly IMediator mediator;
     public UserProfilesController(IMediator mediator)
@@ -62,27 +62,9 @@ public class UserProfilesController : ControllerBase
         var result = await mediator.Send(command);
         if (result.IsError)
         {
-            if (result.Errors.Any(e => e.Code == ErrorCode.NOT_FOUND))
-            {
-                var error = result.Errors.FirstOrDefault(e => e.Code == ErrorCode.NOT_FOUND);
-                if (error is null)
-                {
-                    return StatusCode(500);
-                }
-                var errorResponse = new ErrorResponse()
-                {
-                    StatusCode = (int)error.Code,
-                    StatusMessage = error.Message,
-                };
-                errorResponse.Errors.Add(error.Message);
-                return NotFound(errorResponse);
-            }
-            else if (result.Errors.Any(e => e.Code == ErrorCode.INTERNAL))
-            {
-                return StatusCode(500);
-            }
+            var response = HandleErrorResponse(result.Errors);
+            return response;
         }
-        var userProfile = result.Value;
         return NoContent();
     }
 
