@@ -6,6 +6,7 @@ using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AFSocial.Application.Models;
+using AFSocial.Api.Contracts.Common;
 
 namespace AFSocial.Api.Controllers.v1;
 
@@ -64,7 +65,17 @@ public class UserProfilesController : ControllerBase
             if (result.Errors.Any(e => e.Code == ErrorCode.NOT_FOUND))
             {
                 var error = result.Errors.FirstOrDefault(e => e.Code == ErrorCode.NOT_FOUND);
-                return NotFound(error?.Message);
+                if (error is null)
+                {
+                    return StatusCode(500);
+                }
+                var errorResponse = new ErrorResponse()
+                {
+                    StatusCode = (int)error.Code,
+                    StatusMessage = error.Message,
+                };
+                errorResponse.Errors.Add(error.Message);
+                return NotFound(errorResponse);
             }
             else if (result.Errors.Any(e => e.Code == ErrorCode.INTERNAL))
             {
