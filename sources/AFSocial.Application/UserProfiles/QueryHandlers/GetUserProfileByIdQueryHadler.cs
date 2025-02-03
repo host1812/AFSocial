@@ -1,11 +1,13 @@
-﻿using AFSocial.Application.UserProfiles.Queries;
+﻿using AFSocial.Application.Models;
+using AFSocial.Application.UserProfiles.Queries;
 using AFSocial.Data;
 using AFSocial.Domain.Aggregates.UserProfileAggregate;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace AFSocial.Application.UserProfiles.QueryHandlers;
-internal class GetUserProfileByIdQueryHadler : IRequestHandler<GetUserProfileByIdQuery, UserProfile>
+internal class GetUserProfileByIdQueryHadler :
+    IRequestHandler<GetUserProfileByIdQuery, OperationResult<UserProfile>>
 {
     private readonly DataContext ctx;
 
@@ -14,10 +16,25 @@ internal class GetUserProfileByIdQueryHadler : IRequestHandler<GetUserProfileByI
         this.ctx = ctx;
     }
 
-    public async Task<UserProfile> Handle(GetUserProfileByIdQuery request, CancellationToken cancellationToken)
+    public async Task<OperationResult<UserProfile>> Handle(GetUserProfileByIdQuery request, CancellationToken cancellationToken)
     {
-        return await ctx.UserProfiles.FirstOrDefaultAsync(
+        var response = new OperationResult<UserProfile>();
+        var userProfile = await ctx.UserProfiles.FirstOrDefaultAsync(
             up => up.UserProfileId == request.UserProfileId,
             cancellationToken);
+        if (userProfile is not null)
+        {
+            response.Value = userProfile;
+        }
+        else
+        {
+            response.IsError = true;
+            response.Errors.Add(new OperationError()
+            {
+                Code = ErrorCode.NOT_FOUND,
+                Message = $"UserProfile not found. UserProfileId: {request.UserProfileId}",
+            });
+        }
+        return response;
     }
 }

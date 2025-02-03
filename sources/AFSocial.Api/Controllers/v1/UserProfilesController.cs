@@ -41,14 +41,15 @@ public class UserProfilesController : BaseController
             nameof(GetUserProfileById),
             new { id = response.UserProfileId }, response );
     }
+
     [HttpGet]
     [Route(ApiRoutes.UserProfiles.IdRoute)]
     public async Task<IActionResult> GetUserProfileById(Guid id)
     {
         var query = new GetUserProfileByIdQuery { UserProfileId = id};
-        var userProfile = await mediator.Send(query);
-        var response = userProfile.ToUserProfileResponse();
-        return Ok(response);
+        var result = await mediator.Send(query);
+        return result.IsError ? HandleErrorResponse(result.Errors) :
+            Ok(result.Value?.ToUserProfileResponse());
     }
 
     [HttpPatch]
