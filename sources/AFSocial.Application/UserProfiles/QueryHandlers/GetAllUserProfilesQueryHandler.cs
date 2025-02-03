@@ -1,11 +1,13 @@
-﻿using AFSocial.Application.UserProfiles.Queries;
+﻿using AFSocial.Application.Models;
+using AFSocial.Application.UserProfiles.Queries;
 using AFSocial.Data;
 using AFSocial.Domain.Aggregates.UserProfileAggregate;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace AFSocial.Application.UserProfiles.QueryHandlers;
-internal class GetAllUserProfilesQueryHandler : IRequestHandler<GetAllUserProfilesQuery, IEnumerable<UserProfile>>
+internal class GetAllUserProfilesQueryHandler :
+    IRequestHandler<GetAllUserProfilesQuery, OperationResult<IEnumerable<UserProfile>>>
 {
     private readonly DataContext ctx;
 
@@ -14,8 +16,12 @@ internal class GetAllUserProfilesQueryHandler : IRequestHandler<GetAllUserProfil
         this.ctx = ctx;
     }
 
-    public async Task<IEnumerable<UserProfile>> Handle(GetAllUserProfilesQuery request, CancellationToken cancellationToken)
+    public async Task<OperationResult<IEnumerable<UserProfile>>> Handle(GetAllUserProfilesQuery request, CancellationToken cancellationToken)
     {
-        return await ctx.UserProfiles.ToListAsync();
+        var userProfiles = await ctx.UserProfiles.ToListAsync();
+        return new OperationResult<IEnumerable<UserProfile>>
+        {
+            Value = userProfiles,
+        };
     }
 }

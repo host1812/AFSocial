@@ -1,10 +1,12 @@
-﻿using AFSocial.Application.UserProfiles.Commands;
+﻿using AFSocial.Application.Models;
+using AFSocial.Application.UserProfiles.Commands;
 using AFSocial.Data;
 using AFSocial.Domain.Aggregates.UserProfileAggregate;
 using MediatR;
 
 namespace AFSocial.Application.UserProfiles.CommandHandlers;
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserProfile>
+public class CreateUserCommandHandler :
+    IRequestHandler<CreateUserCommand, OperationResult<UserProfile>>
 {
     private readonly DataContext ctx;
 
@@ -13,7 +15,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserP
         this.ctx = ctx;
     }
 
-    public async Task<UserProfile> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<OperationResult<UserProfile>> Handle(
+        CreateUserCommand request,
+        CancellationToken cancellationToken)
     {
         var basicInfo = BasicInfo.CreateBasicInfo(
             request.FirstName,
@@ -27,6 +31,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserP
         ctx.UserProfiles.Add(userProfile);
         await ctx.SaveChangesAsync();
         
-        return userProfile;
+        return new OperationResult<UserProfile>()
+        {
+            Value = userProfile,
+        };
     }
 }

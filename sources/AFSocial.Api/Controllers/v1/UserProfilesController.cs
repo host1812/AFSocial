@@ -26,20 +26,18 @@ public class UserProfilesController : BaseController
     public async Task<IActionResult> GetAllProfiles()
     {
         var query = new GetAllUserProfilesQuery();
-        var profiles = await mediator.Send(query);
-        var response = profiles.Select(p => p.ToUserProfileResponse()).ToList();
-        return Ok(response);
+        var result = await mediator.Send(query);
+        return result.IsError ? HandleErrorResponse(result.Errors) :
+            Ok(result.Value?.Select(p => p.ToUserProfileResponse()).ToList());
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateUserProfile(UserProfileCreateUpdate profile)
     {
         var command = profile.ToUserProfileCommand();
-        var userProfile = await mediator.Send(command);
-        var response = userProfile.ToUserProfileResponse();
-        return CreatedAtAction(
-            nameof(GetUserProfileById),
-            new { id = response.UserProfileId }, response );
+        var result = await mediator.Send(command);
+        return result.IsError ? HandleErrorResponse(result.Errors) :
+            Ok(result.Value?.ToUserProfileResponse());
     }
 
     [HttpGet]
