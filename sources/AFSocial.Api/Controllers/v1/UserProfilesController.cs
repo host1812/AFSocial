@@ -62,8 +62,7 @@ public class UserProfilesController : BaseController
         var result = await mediator.Send(command);
         if (result.IsError)
         {
-            var response = HandleErrorResponse(result.Errors);
-            return response;
+            return HandleErrorResponse(result.Errors);
         }
         return NoContent();
     }
