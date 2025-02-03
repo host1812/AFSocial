@@ -37,7 +37,10 @@ public class UserProfilesController : BaseController
         var command = profile.ToUserProfileCommand();
         var result = await mediator.Send(command);
         return result.IsError ? HandleErrorResponse(result.Errors) :
-            Ok(result.Value?.ToUserProfileResponse());
+            CreatedAtAction(
+                nameof(GetUserProfileById),
+                new {id = result.Value?.UserProfileId},
+                result.Value?.ToUserProfileResponse());
     }
 
     [HttpGet]
@@ -67,7 +70,7 @@ public class UserProfilesController : BaseController
     public async Task<IActionResult> DeleteUserProfile(Guid id)
     {
         var command = new DeleteUserProfileCommand { UserProfileId = id };
-        await mediator.Send(command);
-        return NoContent();
+        var result = await mediator.Send(command);
+        return result.IsError ? HandleErrorResponse(result.Errors) : NoContent();
     }
 }
