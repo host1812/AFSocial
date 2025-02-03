@@ -60,11 +60,7 @@ public class UserProfilesController : BaseController
         var command = updatedProfile.ToUpdateUserProfileBasicInfoCommand();
         command.UserProfileId = id;
         var result = await mediator.Send(command);
-        if (result.IsError)
-        {
-            return HandleErrorResponse(result.Errors);
-        }
-        return NoContent();
+        return result.IsError ? HandleErrorResponse(result.Errors) : NoContent();
     }
 
     [HttpDelete]
