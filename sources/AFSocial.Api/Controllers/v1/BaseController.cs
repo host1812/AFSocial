@@ -16,7 +16,7 @@ public class BaseController : ControllerBase
             {
                 return StatusCode(500);
             }
-            errorResponse.StatusCode = (int)error.Code;
+            errorResponse.StatusCode = 404;
             errorResponse.StatusMessage = error.Message;
             errorResponse.Errors.Add(error.Message);
             errorResponse.Timestamp = DateTime.UtcNow;
