@@ -1,4 +1,5 @@
 ﻿
+using AFSocial.Api.Filters;
 using Asp.Versioning;
 
 namespace AFSocial.Api.Registars;
@@ -21,6 +22,9 @@ public class MvcRegistar : IWebApplicationBuilderRegistar
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(cfg => 
+        {
+            cfg.Filters.Add<HandleExceptionAttribute>();
+        });
     }
 }
