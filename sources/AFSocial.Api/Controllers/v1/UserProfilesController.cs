@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AFSocial.Application.Models;
 using AFSocial.Api.Contracts.Common;
+using AFSocial.Api.Filters;
 
 namespace AFSocial.Api.Controllers.v1;
 
@@ -32,6 +33,7 @@ public class UserProfilesController : BaseController
     }
 
     [HttpPost]
+    [ValidateModel]
     public async Task<IActionResult> CreateUserProfile(UserProfileCreateUpdate profile)
     {
         var command = profile.ToUserProfileCommand();
@@ -55,6 +57,7 @@ public class UserProfilesController : BaseController
 
     [HttpPatch]
     [Route(ApiRoutes.UserProfiles.IdRoute)]
+    [ValidateModel]
     public async Task<IActionResult> UpdateUserProfile(
         Guid id,
         UserProfileCreateUpdate updatedProfile)
