@@ -8,14 +8,11 @@ public class HandleExceptionAttribute : ExceptionFilterAttribute
 {
     public override void OnException(ExceptionContext context)
     {
-        if (!context.ModelState.IsValid)
-        {
-            var errorResponse = new ErrorResponse();
-            errorResponse.StatusCode = 500;
-            errorResponse.StatusMessage = "Internal Server Error";
-            errorResponse.Timestamp = DateTime.UtcNow;
-            errorResponse.Errors.Add(context.Exception.Message);
-            context.Result = new ObjectResult(errorResponse) { StatusCode = 500 }; ;
-        }
+        var errorResponse = new ErrorResponse();
+        errorResponse.StatusCode = 500;
+        errorResponse.StatusMessage = "Internal Server Error";
+        errorResponse.Timestamp = DateTime.UtcNow;
+        errorResponse.Errors.Add(context.Exception.Message);
+        context.Result = new ObjectResult(errorResponse) { StatusCode = 500 }; ;
     }
 }
