@@ -1,4 +1,7 @@
-﻿namespace AFSocial.Domain.Aggregates.PostAggregate;
+﻿using AFSocial.Domain.Exceptions;
+using AFSocial.Domain.Validators.PostValidators;
+
+namespace AFSocial.Domain.Aggregates.PostAggregate;
 public class PostComment
 {
     private PostComment()
@@ -14,7 +17,9 @@ public class PostComment
 
     public static PostComment CreatePostComment(Guid postId, string text, Guid userProfileId)
     {
-        return new PostComment()
+        var validator = new PostCommentValidator();
+
+        var objToValidate = new PostComment()
         {
             PostId = postId,
             Text = text,
@@ -22,6 +27,21 @@ public class PostComment
             CreatedAt = DateTime.UtcNow,
             LastModified = DateTime.UtcNow,
         };
+
+        var validationResult = validator.Validate(objToValidate);
+
+        if (!validationResult.IsValid)
+        {
+            var exception = new PostCommentNotValidException("The post comment is not valid");
+            foreach (var error in validationResult.Errors)
+            {
+                exception.ValidationErrors.Add(error.ErrorMessage);
+            }
+
+            throw exception;
+        }
+
+        return objToValidate;
     }
 
     public void UpdateCommentText(string newText)
