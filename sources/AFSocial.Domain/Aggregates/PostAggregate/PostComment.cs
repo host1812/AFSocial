@@ -15,6 +15,14 @@ public class PostComment
     public DateTime CreatedAt { get; private set; }
     public DateTime LastModified { get; private set; }
 
+    /// <summary>
+    /// Creates a new post comment.
+    /// </summary>
+    /// <param name="postId">The ID of the post.</param>
+    /// <param name="text">The text of the comment.</param>
+    /// <param name="userProfileId">The ID of the user profile.</param>
+    /// <returns>A new instance of <see cref="PostComment"/>.</returns>
+    /// <exception cref="PostCommentNotValidException">Thrown when the post comment is not valid.</exception>
     public static PostComment CreatePostComment(Guid postId, string text, Guid userProfileId)
     {
         var validator = new PostCommentValidator();

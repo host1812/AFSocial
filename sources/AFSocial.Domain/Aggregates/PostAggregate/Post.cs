@@ -1,4 +1,6 @@
 ﻿using AFSocial.Domain.Aggregates.UserProfileAggregate;
+using AFSocial.Domain.Exceptions;
+using AFSocial.Domain.Validators.PostValidators;
 
 namespace AFSocial.Domain.Aggregates.PostAggregate;
 public class Post
@@ -20,13 +22,23 @@ public class Post
 
     public static Post CreatePost(Guid userProfileId, string textContent)
     {
-        return new Post()
+        var validator = new PostValidator();
+        var objToValidate = new Post()
         {
             UserProfileId = userProfileId,
             TextContent = textContent,
             CreatedAt = DateTime.UtcNow,
             LastModified = DateTime.UtcNow,
         };
+
+        var validationResult = validator.Validate(objToValidate);
+        if (!validationResult.IsValid)
+        {
+            var exception = new PostNotValidException("Post is not valid.");
+            validationResult.Errors.ForEach(e => exception.ValidationErrors.Add(e.ErrorMessage));
+            throw exception;
+        }
+        return objToValidate;
     }
 
     public void UpdatePost(string newTextContent)
