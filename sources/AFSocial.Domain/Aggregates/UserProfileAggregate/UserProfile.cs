@@ -9,7 +9,7 @@ public class UserProfile
     public Guid ObjectId { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime LastModified { get; private set; }
-    public BasicInfo BasicInfo { get; private set; }
+    public BasicInfo? BasicInfo { get; private set; }
 
     public static UserProfile CreateUserProfile(Guid objectId, BasicInfo basicInfo)
     {
