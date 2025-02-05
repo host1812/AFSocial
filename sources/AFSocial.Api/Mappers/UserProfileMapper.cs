@@ -40,7 +40,7 @@ public static class UserProfileMapper
             CreatedAt = source.CreatedAt,
             LastModified = source.LastModified,
             UserProfileId = source.UserProfileId,
-            BasicInfo = source.BasicInfo.ToBasicInfoResponse(),
+            BasicInfo = source.BasicInfo?.ToBasicInfoResponse(),
         };
     }
 

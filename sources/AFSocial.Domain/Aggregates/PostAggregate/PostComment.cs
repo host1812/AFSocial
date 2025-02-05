@@ -5,10 +5,10 @@ public class PostComment
     {
     }
 
-    public Guid CommentId { get; private set; }
-    public Guid PostId { get; private set; }
-    public string Text { get; private set; }
-    public Guid UserProfileId { get; private set; }
+    public Guid CommentId { get; private set; } = Guid.NewGuid();
+    public Guid PostId { get; private set; } = Guid.NewGuid();
+    public string Text { get; private set; } = string.Empty;
+    public Guid UserProfileId { get; private set; } = Guid.NewGuid();
     public DateTime CreatedAt { get; private set; }
     public DateTime LastModified { get; private set; }
 

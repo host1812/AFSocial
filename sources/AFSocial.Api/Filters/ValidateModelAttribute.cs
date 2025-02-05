@@ -20,11 +20,13 @@ public class ValidateModelAttribute : ActionFilterAttribute
             var validationErrors = context.ModelState.AsEnumerable();
             foreach (var error in validationErrors)
             {
-                foreach (var inner in error.Value.Errors)
+                if (error.Value is not null)
                 {
-                    errorResponse.Errors.Add(inner.ErrorMessage);
+                    foreach (var inner in error.Value.Errors)
+                    {
+                        errorResponse.Errors.Add(inner.ErrorMessage);
+                    }
                 }
-                
             }
             context.Result = new BadRequestObjectResult(errorResponse);
         }

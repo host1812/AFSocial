@@ -11,7 +11,7 @@ public class Post
 
     public Guid PostId { get; private set; } = Guid.NewGuid();
     public Guid UserProfileId { get; private set; } = Guid.NewGuid();
-    public UserProfile UserProfile { get; private set; }
+    public UserProfile? UserProfile { get; private set; }
     public string TextContent { get; private set; } = string.Empty;
     public DateTime CreatedAt { get; private set; } = DateTime.Now;
     public DateTime LastModified { get; private set; } = DateTime.Now;
