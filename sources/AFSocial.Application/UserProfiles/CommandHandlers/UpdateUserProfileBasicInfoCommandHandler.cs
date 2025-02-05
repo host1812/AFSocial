@@ -2,6 +2,7 @@
 using AFSocial.Application.UserProfiles.Commands;
 using AFSocial.Data;
 using AFSocial.Domain.Aggregates.UserProfileAggregate;
+using AFSocial.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,23 +36,29 @@ public class UpdateUserProfileBasicInfoCommandHandler :
             }];
             return result;
         }
-
-        var basicInfo = BasicInfo.CreateBasicInfo(
-            request.FirstName,
-            request.LastName,
-            request.EmailAddress,
-            request.PhoneNumber,
-            request.DateOfBirth,
-            request.CurrentCity);
-
-        userProfile.UpdateBasicInfo(basicInfo);
-        ctx.UserProfiles.Update(userProfile);
-        
         try
         {
+            var basicInfo = BasicInfo.CreateBasicInfo(
+                request.FirstName,
+                request.LastName,
+                request.EmailAddress,
+                request.PhoneNumber,
+                request.DateOfBirth,
+                request.CurrentCity);
+
+            userProfile.UpdateBasicInfo(basicInfo);
+            ctx.UserProfiles.Update(userProfile);
             await ctx.SaveChangesAsync(cancellationToken);
             result.Value = userProfile;
-            result.IsError = false;
+        }
+        catch (UserProfileNotValidException ex)
+        {
+            result.IsError = true;
+            ex.ValidationErrors.ForEach(e =>
+            {
+                var error = new OperationError { Code = ErrorCode.VALIDATION, Message = ex.Message };
+                result.Errors.Add(error);
+            });
         }
         catch (Exception)
         {
