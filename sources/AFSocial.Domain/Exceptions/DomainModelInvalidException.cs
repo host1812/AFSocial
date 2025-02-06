@@ -8,6 +8,8 @@ namespace AFSocial.Domain.Exceptions;
 
 public abstract class DomainModelInvalidException : Exception
 {
+    public List<string> ValidationErrors { get; }
+
     internal DomainModelInvalidException()
     {
         ValidationErrors = new List<string>();
@@ -22,5 +24,4 @@ public abstract class DomainModelInvalidException : Exception
     {
         ValidationErrors = new List<string>();
     }
-    public List<string> ValidationErrors { get; }
 }
