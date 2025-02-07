@@ -1,6 +1,4 @@
 ﻿using AFSocial.Api.Contracts.Common;
-using AFSocial.Application.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

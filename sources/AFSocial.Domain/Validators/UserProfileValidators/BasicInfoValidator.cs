@@ -1,10 +1,5 @@
 ﻿using AFSocial.Domain.Aggregates.UserProfileAggregate;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AFSocial.Domain.Validators.UserProfileValidators;
 public class BasicInfoValidator : AbstractValidator<BasicInfo>

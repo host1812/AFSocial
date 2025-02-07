@@ -1,10 +1,5 @@
 ﻿using AFSocial.Domain.Aggregates.PostAggregate;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AFSocial.Domain.Validators.PostValidators;
 public class PostCommentValidator : AbstractValidator<PostComment>

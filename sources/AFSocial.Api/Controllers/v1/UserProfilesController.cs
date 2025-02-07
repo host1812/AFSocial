@@ -5,8 +5,6 @@ using AFSocial.Application.UserProfiles.Queries;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using AFSocial.Application.Models;
-using AFSocial.Api.Contracts.Common;
 using AFSocial.Api.Filters;
 
 namespace AFSocial.Api.Controllers.v1;
