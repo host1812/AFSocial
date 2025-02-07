@@ -1,4 +1,5 @@
-﻿using AFSocial.Api.Mappers;
+﻿using AFSocial.Api.Contracts.Posts.Responses;
+using AFSocial.Api.Mappers;
 using AFSocial.Application.Posts.Queries;
 using AFSocial.Domain.Aggregates.PostAggregate;
 using Asp.Versioning;
@@ -21,7 +22,8 @@ public class PostController : BaseController
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(List<Post>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<PostResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(, StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAllPosts()
     {
         var query = new GetAllPostsQuery();
@@ -32,15 +34,17 @@ public class PostController : BaseController
 
     [HttpGet]
     [Route(ApiRoutes.Posts.IdRoute)]
-    [ProducesResponseType(typeof(Post), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-    public IActionResult GetById(string id)
+    [ProducesResponseType(typeof(PostResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(, StatusCodes.Status404NotFound)]
+    [ProducesResponseType(, StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetPostById(Guid id)
     {
-        var success = Guid.TryParse(id, out var guid);
-        if (!success)
+        var query = new GetPostByIdQuery()
         {
-            return UnprocessableEntity();
-        }
-        return Ok(Post.CreatePost(Guid.NewGuid(), "Content"));
+            PostId = id
+        };
+        var result = await mediator.Send(query);
+        return result.IsError ? HandleErrorResponse(result.Errors) :
+            Ok(result.Value?.ToPostResponse());
     }
 }
