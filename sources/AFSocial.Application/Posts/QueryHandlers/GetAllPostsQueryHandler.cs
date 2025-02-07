@@ -25,10 +25,22 @@ public class GetAllPostsQueryHandler : IRequestHandler<GetAllPostsQuery, Operati
         GetAllPostsQuery request,
         CancellationToken cancellationToken)
     {
-        var posts = await ctx.Posts.ToListAsync();
-        return new OperationResult<List<Post>>
+        var result = new OperationResult<List<Post>>();
+        try
         {
-            Value = posts
-        };
+            var posts = await ctx.Posts.ToListAsync();
+            result.Value = posts;
+        }
+        catch (Exception ex)
+        {
+            result.IsError = true;
+            result.Errors.Add(new OperationError
+            {
+                Code = ErrorCode.INTERNAL,
+                Message = ex.Message,
+            });
+        }
+
+        return result;
     }
 }
