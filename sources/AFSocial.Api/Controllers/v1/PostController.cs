@@ -1,4 +1,6 @@
-﻿using AFSocial.Domain.Aggregates.PostAggregate;
+﻿using AFSocial.Api.Mappers;
+using AFSocial.Application.Posts.Queries;
+using AFSocial.Domain.Aggregates.PostAggregate;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +11,7 @@ namespace AFSocial.Api.Controllers.v1;
 [ApiVersion("1")]
 [Route(ApiRoutes.BaseDefaultRoute)]
 [Route(ApiRoutes.BaseVersionedRoute)]
-public class PostController : ControllerBase
+public class PostController : BaseController
 {
     private readonly IMediator mediator;
 
@@ -20,9 +22,12 @@ public class PostController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(typeof(List<Post>), StatusCodes.Status200OK)]
-    public IActionResult GetAllPosts()
+    public async Task<IActionResult> GetAllPosts()
     {
-        return Ok();
+        var query = new GetAllPostsQuery();
+        var result = await mediator.Send(query);
+        return result.IsError ? HandleErrorResponse(result.Errors) :
+            Ok(result.Value?.Select(p => p.ToPostResponse()).ToList());
     }
 
     [HttpGet]
