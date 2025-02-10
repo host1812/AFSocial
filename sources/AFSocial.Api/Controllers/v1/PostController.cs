@@ -1,5 +1,8 @@
-﻿using AFSocial.Api.Contracts.Posts.Responses;
+﻿using AFSocial.Api.Contracts.Posts.Requests;
+using AFSocial.Api.Contracts.Posts.Responses;
+using AFSocial.Api.Filters;
 using AFSocial.Api.Mappers;
+using AFSocial.Application.Posts.Commands;
 using AFSocial.Application.Posts.Queries;
 using AFSocial.Domain.Aggregates.PostAggregate;
 using Asp.Versioning;
@@ -44,6 +47,19 @@ public class PostController : BaseController
             PostId = id
         };
         var result = await mediator.Send(query);
+        return result.IsError ? HandleErrorResponse(result.Errors) :
+            Ok(result.Value?.ToPostResponse());
+    }
+    [HttpPost]
+    [ValidateModel]
+    public async Task<IActionResult> CreatePost([FromBody] PostCreateRequest newPost)
+    {
+        var command = new CreatePostCommand()
+        {
+            TextContent = newPost.TextContent,
+            UserProfileId = newPost.UserProfileId,
+        };
+        var result = await mediator.Send(command);
         return result.IsError ? HandleErrorResponse(result.Errors) :
             Ok(result.Value?.ToPostResponse());
     }

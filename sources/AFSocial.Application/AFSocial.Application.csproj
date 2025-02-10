@@ -11,11 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Posts\CommandHandlers\" />
-    <Folder Include="Posts\Commands\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AFSocial.Data\AFSocial.Data.csproj" />
     <ProjectReference Include="..\AFSocial.Domain\AFSocial.Domain.csproj" />
   </ItemGroup>
