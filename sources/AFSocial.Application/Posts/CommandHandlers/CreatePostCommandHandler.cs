@@ -13,16 +13,28 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AFSocial.Application.Posts.CommandHandlers;
-public class CreatePostCommandHandler :
-    IRequestHandler<CreatePostCommand, OperationResult<Post>>
+/// <summary>
+/// Handles the creation of a new post.
+/// </summary>
+public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, OperationResult<Post>>
 {
     private readonly DataContext ctx;
 
-    public CreatePostCommandHandler(DataContext cxt)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreatePostCommandHandler"/> class.
+    /// </summary>
+    /// <param name="ctx">The data context.</param>
+    public CreatePostCommandHandler(DataContext ctx)
     {
-        this.ctx = cxt;
+        this.ctx = ctx;
     }
 
+    /// <summary>
+    /// Handles the creation of a new post.
+    /// </summary>
+    /// <param name="request">The create post command.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The result of the operation.</returns>
     public async Task<OperationResult<Post>> Handle(CreatePostCommand request, CancellationToken cancellationToken)
     {
         var result = new OperationResult<Post>();
@@ -45,14 +57,13 @@ public class CreatePostCommandHandler :
                 };
                 result.Errors.Add(error);
             });
-
         }
         catch (Exception ex)
         {
             result.IsError = true;
-            result.Errors.Add(new OperationError { Message = ex.Message, Code = ErrorCode.INTERNAL});
+            result.Errors.Add(new OperationError { Message = ex.Message, Code = ErrorCode.INTERNAL });
         }
-        
+
         return result;
     }
 }
