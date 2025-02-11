@@ -24,9 +24,13 @@ public class PostController : BaseController
         this.mediator = mediator;
     }
 
+    /// <summary>
+    /// Retrieves all posts.
+    /// </summary>
+    /// <returns>A list of posts.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(List<PostResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(, StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAllPosts()
     {
         var query = new GetAllPostsQuery();
@@ -35,11 +39,16 @@ public class PostController : BaseController
             Ok(result.Value?.Select(p => p.ToPostResponse()).ToList());
     }
 
+    /// <summary>
+    /// Retrieves a post by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the post.</param>
+    /// <returns>The post with the specified ID.</returns>
     [HttpGet]
     [Route(ApiRoutes.Posts.IdRoute)]
     [ProducesResponseType(typeof(PostResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(, StatusCodes.Status404NotFound)]
-    [ProducesResponseType(, StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetPostById(Guid id)
     {
         var query = new GetPostByIdQuery()
@@ -50,8 +59,17 @@ public class PostController : BaseController
         return result.IsError ? HandleErrorResponse(result.Errors) :
             Ok(result.Value?.ToPostResponse());
     }
+
+    /// <summary>
+    /// Creates a new post.
+    /// </summary>
+    /// <param name="newPost">The details of the new post.</param>
+    /// <returns>The created post.</returns>
     [HttpPost]
     [ValidateModel]
+    [ProducesResponseType(typeof(PostResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreatePost([FromBody] PostCreateRequest newPost)
     {
         var command = new CreatePostCommand()
@@ -61,6 +79,9 @@ public class PostController : BaseController
         };
         var result = await mediator.Send(command);
         return result.IsError ? HandleErrorResponse(result.Errors) :
-            Ok(result.Value?.ToPostResponse());
+            CreatedAtAction(
+                nameof(GetPostById),
+                new { id = result.Value?.PostId },
+                result.Value?.ToPostResponse());
     }
 }
