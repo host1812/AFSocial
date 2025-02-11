@@ -88,7 +88,7 @@ public class Post
     /// </summary>
     /// <param name="newTextContent">The new text content of the post.</param>
     /// <exception cref="PostNotValidException">Thrown when the new text content is not valid.</exception>
-    public void UpdatePost(string newTextContent)
+    public void UpdatePostText(string newTextContent)
     {
         if (string.IsNullOrWhiteSpace(newTextContent))
         {

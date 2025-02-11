@@ -84,4 +84,33 @@ public class PostController : BaseController
                 new { id = result.Value?.PostId },
                 result.Value?.ToPostResponse());
     }
+
+    [HttpPatch]
+    [Route(ApiRoutes.Posts.IdRoute)]
+    [ValidateModel]
+    public async Task<IActionResult> UpdatePost(
+        [FromBody] PostUpdateRequest Post,
+        [FromQuery] Guid id)
+    {
+        var command = new UpdatePostTextCommand()
+        {
+            PostId = Post.PostId,
+            TextContent = Post.Text,
+        };
+
+        var result = await mediator.Send(command);
+        return result.IsError ? HandleErrorResponse(result.Errors) : NoContent();
+    }
+
+    [HttpDelete]
+    [Route(ApiRoutes.Posts.IdRoute)]
+    public async Task<IActionResult> DeletePost(Guid id)
+    {
+        var command = new DeletePostCommand()
+        {
+            PostId = id,
+        };
+        var result = await mediator.Send(command);
+        return result.IsError ? HandleErrorResponse(result.Errors) : NoContent();
+    }
 }

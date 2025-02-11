@@ -32,7 +32,7 @@ public class UpdateUserProfileBasicInfoCommandHandler :
             result.Errors = [new OperationError
             {
                 Code = ErrorCode.NOT_FOUND,
-                Message = $"User profile not found. Id: {request.UserProfileId}"
+                Message = $"User profile not found. PostId: {request.UserProfileId}"
             }];
             return result;
         }
