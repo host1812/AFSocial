@@ -94,7 +94,7 @@ public class PostController : BaseController
     {
         var command = new UpdatePostTextCommand()
         {
-            PostId = Post.PostId,
+            PostId = id,
             TextContent = Post.Text,
         };
 
