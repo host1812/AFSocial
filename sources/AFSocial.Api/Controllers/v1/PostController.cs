@@ -133,6 +133,13 @@ public class PostController : BaseController
         Guid postId,
         [FromBody] PostCommentCreateRequest comment)
     {
-        var command = 
+        var command = new AddCommentToPostCommand()
+        {
+            PostId = postId,
+            CommentText = comment.Text,
+            UserProfileId = comment.UserProfileId,
+        };
+        var result = await mediator.Send(command);
+        return result.IsError ? HandleErrorResponse(result.Errors) : NoContent();
     }
 }
