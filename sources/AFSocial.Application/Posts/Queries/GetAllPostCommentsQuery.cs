@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AFSocial.Application.Posts.Queries;
-public class GetAllPostCommentsQuery : IRequest<OperationResult<IEnumerable<PostComment>>>
+public class GetAllPostCommentsQuery : IRequest<OperationResult<List<PostComment>>>
 {
     public Guid PostId { get; set; }
 }

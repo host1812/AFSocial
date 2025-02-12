@@ -118,6 +118,11 @@ public class PostController : BaseController
     [Route(ApiRoutes.Posts.PostCommentIdRoute)]
     public async Task<IActionResult> GetCommentsByPostId(Guid postId)
     {
-        return Ok();
+        var query = new GetAllPostCommentsQuery()
+        {
+            PostId = postId,
+        };
+        var result = await mediator.Send(query);
+        return result.IsError ? HandleErrorResponse(result.Errors) : Ok(result.Value);
     }
 }
