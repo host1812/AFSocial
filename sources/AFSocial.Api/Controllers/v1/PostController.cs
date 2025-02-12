@@ -123,6 +123,16 @@ public class PostController : BaseController
             PostId = postId,
         };
         var result = await mediator.Send(query);
-        return result.IsError ? HandleErrorResponse(result.Errors) : Ok(result.Value);
+        return result.IsError ? HandleErrorResponse(result.Errors)
+            : Ok(result.Value?.Select(x => x.ToPostCommentResponse()).ToList());
+    }
+
+    [HttpPost]
+    [Route(ApiRoutes.Posts.PostCommentIdRoute)]
+    public async Task<IActionResult> AddCommentToPost(
+        Guid postId,
+        [FromBody] PostCommentCreateRequest comment)
+    {
+        var command = 
     }
 }
