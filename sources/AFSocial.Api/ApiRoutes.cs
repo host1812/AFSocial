@@ -8,6 +8,8 @@ public class ApiRoutes
     public class Posts
     {
         public const string IdRoute = "{id}";
+        public const string PostCommentsRoute = "{postId}/comments";
+        public const string PostCommentIdRoute = "{postId}/comments/{commentId}";
     }
     public class UserProfiles
     {

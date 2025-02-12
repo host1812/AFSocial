@@ -17,4 +17,13 @@ public static class PostMapper
             UserProfileId = source.UserProfileId,
         };
     }
+
+    public static PostCommentResponse ToPostCommentResponse(this PostComment source)
+    {
+        return new PostCommentResponse()
+        {
+            UserProfileId = source.UserProfileId,
+            Text = source.Text,
+        };
+    }
 }

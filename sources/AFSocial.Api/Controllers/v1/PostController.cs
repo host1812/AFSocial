@@ -113,4 +113,11 @@ public class PostController : BaseController
         var result = await mediator.Send(command);
         return result.IsError ? HandleErrorResponse(result.Errors) : NoContent();
     }
+
+    [HttpGet]
+    [Route(ApiRoutes.Posts.PostCommentIdRoute)]
+    public async Task<IActionResult> GetCommentsByPostId(Guid postId)
+    {
+        return Ok();
+    }
 }
