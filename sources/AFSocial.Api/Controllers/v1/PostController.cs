@@ -115,7 +115,7 @@ public class PostController : BaseController
     }
 
     [HttpGet]
-    [Route(ApiRoutes.Posts.PostCommentIdRoute)]
+    [Route(ApiRoutes.Posts.PostCommentsRoute)]
     public async Task<IActionResult> GetCommentsByPostId(Guid postId)
     {
         var query = new GetAllPostCommentsQuery()
@@ -128,7 +128,7 @@ public class PostController : BaseController
     }
 
     [HttpPost]
-    [Route(ApiRoutes.Posts.PostCommentIdRoute)]
+    [Route(ApiRoutes.Posts.PostCommentsRoute)]
     public async Task<IActionResult> AddCommentToPost(
         Guid postId,
         [FromBody] PostCommentCreateRequest comment)
@@ -140,6 +140,7 @@ public class PostController : BaseController
             UserProfileId = comment.UserProfileId,
         };
         var result = await mediator.Send(command);
-        return result.IsError ? HandleErrorResponse(result.Errors) : NoContent();
+        return result.IsError ? HandleErrorResponse(result.Errors)
+            : Ok(result.Value?.ToPostCommentResponse());
     }
 }

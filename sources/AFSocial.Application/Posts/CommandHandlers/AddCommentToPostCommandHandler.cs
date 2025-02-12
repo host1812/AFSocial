@@ -45,7 +45,9 @@ public class AddCommentToPostCommandHandler
             {
                 var comment = PostComment.CreatePostComment(
                     request.PostId, request.CommentText, request.UserProfileId);
-                post?.AddPostComment(comment);
+                post.AddPostComment(comment);
+                ctx.Posts.Update(post);
+                await ctx.SaveChangesAsync(cancellationToken);
                 result.Value = comment;
             }
         }
