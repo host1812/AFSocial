@@ -1,6 +1,7 @@
 ﻿
 using AFSocial.Application.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -37,6 +38,7 @@ public class IdentityRegistrar : IWebApplicationBuilderRegistar
             };
             jwt.Audience = jwtSettings.Audiences.FirstOrDefault();
             jwt.ClaimsIssuer = jwtSettings.Issuer;
-        });
+        }).AddBearerToken(IdentityConstants.BearerScheme);
+        builder.Services.AddAuthorizationBuilder();
     }
 }
